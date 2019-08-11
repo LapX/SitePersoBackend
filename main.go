@@ -22,7 +22,7 @@ type Tuple struct {
 func main() {
 	const port = ":8080"
 	router := mux.NewRouter()
-	originsOk := handlers.AllowedOrigins([]string{"http://localhost:3000"})
+	originsOk := handlers.AllowedOrigins([]string{"http://localhost:3000", "https://lapx.github.io"})
 	router.HandleFunc("/", getRoot).Methods("GET")
 	router.HandleFunc("/data", getData).Methods("GET")
 	router.Use(mux.CORSMethodMiddleware(router))
