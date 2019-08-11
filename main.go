@@ -37,7 +37,7 @@ func getRoot(response http.ResponseWriter, request *http.Request) {
 
 func getData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(response).Encode(generateRandomDataList(4))
+	json.NewEncoder(response).Encode(generateRandomDataList(rand.Intn(6) + 1))
 }
 
 func generateRandomDataList(nbrElements int) []Data {
