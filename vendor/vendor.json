@@ -1,0 +1,19 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "uEuiTr48wmkwuEzl2yiTRG85okc=",
+			"path": "github.com/gorilla/handlers",
+			"revision": "8a3748addc242fc560bd6d4ff28b0374c010b1b4",
+			"revisionTime": "2019-07-23T03:58:38Z"
+		},
+		{
+			"checksumSHA1": "5Gw2jINa4yVp4wMujCf7wwMcfRQ=",
+			"path": "github.com/gorilla/mux",
+			"revision": "e67b3c02c7195c052acff13261f0c9fd1ba53011",
+			"revisionTime": "2019-07-20T20:14:35Z"
+		}
+	],
+	"rootPath": "github.com/LapX/SitePersoBackend"
+}
