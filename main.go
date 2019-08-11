@@ -20,22 +20,24 @@ type Tuple struct {
 }
 
 func main() {
-	const port = ":8080"
+	const port = ":443"
 	router := mux.NewRouter()
 	originsOk := handlers.AllowedOrigins([]string{"http://localhost:3000", "https://lapx.github.io"})
 	router.HandleFunc("/", getRoot).Methods("GET")
 	router.HandleFunc("/data", getData).Methods("GET")
 	router.Use(mux.CORSMethodMiddleware(router))
-	fmt.Println("Api listening on port " + port)
+	fmt.Println("[INFO] Api listening on port " + port)
 	http.ListenAndServe(port, handlers.CORS(originsOk)(router))
 }
 
 func getRoot(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("[INFO] / got called")
 	response.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(response).Encode("The api works")
 }
 
 func getData(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("[INFO] /data got called")
 	response.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(response).Encode(generateRandomDataList(rand.Intn(6) + 1))
 }
