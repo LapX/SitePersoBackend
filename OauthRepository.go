@@ -14,7 +14,7 @@ func getOauthInfo() (string, string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	row := database.QueryRow("select clientid, clientsecret from oauthgoogle")
+	row := database.QueryRow("")
 	row.Scan(&clientid, &clientSecret)
 	database.Close()
 	return clientid, clientSecret

@@ -14,8 +14,8 @@ import (
 )
 
 var googleOauthConfig = &oauth2.Config{
-	ClientID:     "",
-	ClientSecret: "",
+	ClientID:     os.Getenv("CLIENT_ID"),
+	ClientSecret: os.Getenv("CLIENT_SECRET"),
 	Endpoint:     google.Endpoint,
 	RedirectURL:  "https://lapx.github.io/SitePersoFrontend/",
 	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
@@ -24,10 +24,6 @@ var googleOauthConfig = &oauth2.Config{
 const oauthGoogleUrlAPI = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
 
 func oauthGoogleLogin(response http.ResponseWriter, request *http.Request) {
-	clientId, clientSecret := getOauthInfo()
-	googleOauthConfig.ClientID = clientId
-	googleOauthConfig.ClientSecret = clientSecret
-
 	oauthState := generateStateOauthCookie(response)
 	user := googleOauthConfig.AuthCodeURL(oauthState)
 	http.Redirect(response, request, user, http.StatusTemporaryRedirect)
