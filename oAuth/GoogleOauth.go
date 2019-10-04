@@ -1,4 +1,4 @@
-package main
+package oAuth
 
 import (
 	"context"
@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -23,7 +24,7 @@ var googleOauthConfig = &oauth2.Config{
 
 const oauthGoogleUrlAPI = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
 
-func oauthGoogleLogin(response http.ResponseWriter, request *http.Request) {
+func OauthGoogleLogin(response http.ResponseWriter, request *http.Request) {
 	oauthState := generateStateOauthCookie(response)
 	user := googleOauthConfig.AuthCodeURL(oauthState)
 	http.Redirect(response, request, user, http.StatusTemporaryRedirect)
@@ -41,7 +42,7 @@ func generateStateOauthCookie(w http.ResponseWriter) string {
 	return state
 }
 
-func oauthGoogleCallback(response http.ResponseWriter, request *http.Request) {
+func OauthGoogleCallback(response http.ResponseWriter, request *http.Request) {
 	oauthState, _ := request.Cookie("oauthstate")
 
 	if request.FormValue("state") != oauthState.Value {

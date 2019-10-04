@@ -1,4 +1,4 @@
-package main
+package dataGeneration
 
 import "math/rand"
 
@@ -12,7 +12,7 @@ type Tuple struct {
 	Earnings int
 }
 
-func generateRandomDataList(nbrElements int) []Data {
+func GenerateRandomDataList(nbrElements int) []Data {
 	var generatedData []Data
 	for i := 0; i < nbrElements; i++ {
 		const baseAmount int = 10000
