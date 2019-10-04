@@ -13,6 +13,24 @@
 			"path": "github.com/gorilla/mux",
 			"revision": "e67b3c02c7195c052acff13261f0c9fd1ba53011",
 			"revisionTime": "2019-07-20T20:14:35Z"
+		},
+		{
+			"checksumSHA1": "rzptgFeOQbuYGWFESUmMh/uHWrY=",
+			"path": "github.com/lib/pq",
+			"revision": "931b5ae4c24e6810c8c82ab4734904de3df1c3dc",
+			"revisionTime": "2019-09-19T16:09:11Z"
+		},
+		{
+			"checksumSHA1": "GX2hcQP8YqrXH+laJJIxUFsqoxU=",
+			"path": "github.com/lib/pq/oid",
+			"revision": "931b5ae4c24e6810c8c82ab4734904de3df1c3dc",
+			"revisionTime": "2019-09-19T16:09:11Z"
+		},
+		{
+			"checksumSHA1": "PStZaE3pKgMy1kk+hHB/of2FYBk=",
+			"path": "github.com/lib/pq/scram",
+			"revision": "931b5ae4c24e6810c8c82ab4734904de3df1c3dc",
+			"revisionTime": "2019-09-19T16:09:11Z"
 		}
 	],
 	"rootPath": "github.com/LapX/SitePersoBackend"
