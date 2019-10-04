@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -29,23 +28,21 @@ func main() {
 }
 
 func initDatabaseConnection() {
+	var clientid string
+	var clientSecret string
 	dataSourceName := getDataSourceName()
 	database, err := sql.Open("postgres", dataSourceName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	rows, err := database.Query("select * from oauthgoogle")
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		fmt.Println(rows)
-	}
+	row := database.QueryRow("select clientid, clientsecret from oauthgoogle")
+	row.Scan(&clientid, &clientSecret)
 }
 
 func getDataSourceName() string {
 	dataSourceName := os.Getenv("DATABASE_URL")
 	if dataSourceName == "" {
-		dataSourceName = "postgres://zdlzizzwvxwvco:433ef3b77effdf353aac89a130baed1735e34cb326dbbaf72730f533998ce7b4@ec2-174-129-238-192.compute-1.amazonaws.com:5432/d1srf5edqjvuqv"
+		dataSourceName = "THAT CONTAINS A PASSWORD"
 	}
 	return dataSourceName
 }
