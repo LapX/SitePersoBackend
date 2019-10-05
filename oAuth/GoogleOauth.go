@@ -4,7 +4,9 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
+	"github.com/LapX/SitePersoBackend/repository"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"io/ioutil"
@@ -14,11 +16,13 @@ import (
 	"time"
 )
 
+//Code follows this tutorial : https://dev.to/douglasmakey/oauth2-example-with-go-3n8a
+
 var googleOauthConfig = &oauth2.Config{
 	ClientID:     os.Getenv("CLIENT_ID"),
 	ClientSecret: os.Getenv("CLIENT_SECRET"),
 	Endpoint:     google.Endpoint,
-	RedirectURL:  "https://lapx.github.io/SitePersoFrontend/",
+	RedirectURL:  "http://localhost:8080/auth/google/callback",
 	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
 }
 
@@ -30,35 +34,38 @@ func OauthGoogleLogin(response http.ResponseWriter, request *http.Request) {
 	http.Redirect(response, request, user, http.StatusTemporaryRedirect)
 }
 
-func generateStateOauthCookie(w http.ResponseWriter) string {
+func generateStateOauthCookie(response http.ResponseWriter) string {
 	var expiration = time.Now().Add(365 * 24 * time.Hour)
 
 	b := make([]byte, 16)
 	rand.Read(b)
 	state := base64.URLEncoding.EncodeToString(b)
 	cookie := http.Cookie{Name: "oauthstate", Value: state, Expires: expiration}
-	http.SetCookie(w, &cookie)
+	http.SetCookie(response, &cookie)
 
 	return state
 }
 
 func OauthGoogleCallback(response http.ResponseWriter, request *http.Request) {
+	var userInfo repository.UserInfo
 	oauthState, _ := request.Cookie("oauthstate")
 
 	if request.FormValue("state") != oauthState.Value {
 		log.Println("invalid oauth google state")
-		http.Redirect(response, request, "/", http.StatusTemporaryRedirect)
+		http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
 		return
 	}
 
 	data, err := getUserDataFromGoogle(request.FormValue("code"))
 	if err != nil {
 		log.Println(err.Error())
-		http.Redirect(response, request, "/", http.StatusTemporaryRedirect)
+		http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
 		return
 	}
 
-	fmt.Fprintf(response, "UserInfo: %s\n", data)
+	json.Unmarshal(data, &userInfo)
+	repository.StoreUserInfo(userInfo)
+	http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
 }
 
 func getUserDataFromGoogle(code string) ([]byte, error) {
