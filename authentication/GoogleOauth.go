@@ -1,4 +1,4 @@
-package oAuth
+package authentication
 
 import (
 	"context"
@@ -28,10 +28,9 @@ var googleOauthConfig = &oauth2.Config{
 
 const oauthGoogleUrlAPI = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
 
-func OauthGoogleLogin(response http.ResponseWriter, request *http.Request) {
+func LoginUser(response http.ResponseWriter) string {
 	oauthState := generateStateOauthCookie(response)
-	user := googleOauthConfig.AuthCodeURL(oauthState)
-	http.Redirect(response, request, user, http.StatusTemporaryRedirect)
+	return googleOauthConfig.AuthCodeURL(oauthState)
 }
 
 func generateStateOauthCookie(response http.ResponseWriter) string {
@@ -46,26 +45,25 @@ func generateStateOauthCookie(response http.ResponseWriter) string {
 	return state
 }
 
-func OauthGoogleCallback(response http.ResponseWriter, request *http.Request) {
+func LoginCallback(response http.ResponseWriter, request *http.Request) string {
 	var userInfo repository.UserInfo
 	oauthState, _ := request.Cookie("oauthstate")
 
 	if request.FormValue("state") != oauthState.Value {
 		log.Println("invalid oauth google state")
 		http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
-		return
 	}
 
 	data, err := getUserDataFromGoogle(request.FormValue("code"))
+	json.Unmarshal(data, &userInfo)
+	userInfo.Token = generateStateOauthCookie(response)
+
 	if err != nil {
 		log.Println(err.Error())
-		http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
-		return
+		http.Redirect(response, request, "http://localhost:2000/SitePersoFrontend/", http.StatusTemporaryRedirect)
 	}
-
-	json.Unmarshal(data, &userInfo)
 	repository.StoreUserInfo(userInfo)
-	http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
+	return userInfo.Token
 }
 
 func getUserDataFromGoogle(code string) ([]byte, error) {
