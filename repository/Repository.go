@@ -33,7 +33,7 @@ func FetchUser(token string) (string, string) {
 	var picture string
 
 	database := initDatabaseConnection()
-	database.QueryRow("select email, picture from userinfo").Scan(&email, &picture)
+	database.QueryRow("select email, picture from userinfo where token=$1", token).Scan(&email, &picture)
 
 	database.Close()
 
