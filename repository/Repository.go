@@ -42,7 +42,6 @@ func FetchUser(token string) (string, string) {
 
 func initDatabaseConnection() *sql.DB {
 	dataSourceName := os.Getenv("DATABASE_URL")
-
 	database, err := sql.Open("postgres", dataSourceName)
 	if err != nil {
 		log.Fatal(err)
