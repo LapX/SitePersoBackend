@@ -22,7 +22,7 @@ var googleOauthConfig = &oauth2.Config{
 	ClientID:     os.Getenv("CLIENT_ID"),
 	ClientSecret: os.Getenv("CLIENT_SECRET"),
 	Endpoint:     google.Endpoint,
-	RedirectURL:  "https://lapx.github.io/auth/google/callback",
+	RedirectURL:  "https://lapx.herokuapp.com/auth/google/callback",
 	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
 }
 
