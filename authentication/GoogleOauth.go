@@ -51,7 +51,7 @@ func LoginCallback(response http.ResponseWriter, request *http.Request) string {
 
 	if request.FormValue("state") != oauthState.Value {
 		log.Println("invalid oauth google state")
-		http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
+		http.Redirect(response, request, "https://lapx.github.io/SitePersoFrontend/", http.StatusTemporaryRedirect)
 	}
 
 	data, err := getUserDataFromGoogle(request.FormValue("code"))
@@ -60,7 +60,7 @@ func LoginCallback(response http.ResponseWriter, request *http.Request) string {
 
 	if err != nil {
 		log.Println(err.Error())
-		http.Redirect(response, request, "http://localhost:2000/SitePersoFrontend/", http.StatusTemporaryRedirect)
+		http.Redirect(response, request, "https://lapx.github.io/SitePersoFrontend/", http.StatusTemporaryRedirect)
 	}
 	repository.StoreUserInfo(userInfo)
 	return userInfo.Token
