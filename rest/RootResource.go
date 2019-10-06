@@ -1,4 +1,4 @@
-package resource
+package rest
 
 import (
 	"encoding/json"
@@ -15,6 +15,7 @@ func InitServer() {
 	originsOk := handlers.AllowedOrigins([]string{"http://localhost:3000", "https://lapx.github.io"})
 	router.HandleFunc("/", getRoot).Methods("GET")
 	router.HandleFunc("/data", GetData).Methods("GET")
+	router.HandleFunc("/dataGraphs", GetGraphs).Methods("GET")
 	router.HandleFunc("/auth/google/login", oauthGoogleLogin).Methods("GET")
 	router.HandleFunc("/auth/google/callback", oauthGoogleCallback).Methods("GET")
 	router.HandleFunc("/auth", getUserInfo).Methods("GET")

@@ -1,8 +1,8 @@
-package resource
+package rest
 
 import (
 	"encoding/json"
-	"github.com/LapX/SitePersoBackend/authentication"
+	"github.com/LapX/SitePersoBackend/domain/authentication"
 	"net/http"
 )
 
@@ -18,7 +18,7 @@ func oauthGoogleCallback(response http.ResponseWriter, request *http.Request) {
 
 func getUserInfo(response http.ResponseWriter, request *http.Request) {
 	token, err := request.URL.Query()["token"]
-		
+
 	if err {
 		userEmailPicture := authentication.GetUser(token[0])
 		response.Header().Set("Content-Type", "application/json")

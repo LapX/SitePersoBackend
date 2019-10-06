@@ -8,7 +8,7 @@ func Test_givenNumberOfElements_whenOneElementIsAsked_thenReturnsOneElement(t *t
 	nbrElements := 1
 	data := GenerateRandomDataList(nbrElements)
 	if len(data) != nbrElements {
-		t.Errorf("Data array is incorrect, contains more than %d elements", nbrElements)
+		t.Errorf("EarningsData array is incorrect, contains more than %d elements", nbrElements)
 	}
 }
 

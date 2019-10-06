@@ -1,6 +1,8 @@
 package authentication
 
-import "github.com/LapX/SitePersoBackend/repository"
+import (
+	"github.com/LapX/SitePersoBackend/dependencies/database"
+)
 
 type UserEmailPicture struct {
 	Email   string
@@ -8,6 +10,6 @@ type UserEmailPicture struct {
 }
 
 func GetUser(token string) UserEmailPicture {
-	email, picture := repository.FetchUser(token)
+	email, picture := database.FetchUser(token)
 	return UserEmailPicture{email, picture}
 }
