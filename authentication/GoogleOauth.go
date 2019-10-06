@@ -22,8 +22,9 @@ var googleOauthConfig = &oauth2.Config{
 	ClientID:     os.Getenv("CLIENT_ID"),
 	ClientSecret: os.Getenv("CLIENT_SECRET"),
 	Endpoint:     google.Endpoint,
-	RedirectURL:  "https://lapx.herokuapp.com/auth/google/callback",
-	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
+	//RedirectURL:  "https://lapx.herokuapp.com/auth/google/callback",
+	RedirectURL: "http://localhost:8080/auth/google/callback",
+	Scopes:      []string{"https://www.googleapis.com/auth/userinfo.email"},
 }
 
 const oauthGoogleUrlAPI = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
@@ -51,7 +52,8 @@ func LoginCallback(response http.ResponseWriter, request *http.Request) string {
 
 	if request.FormValue("state") != oauthState.Value {
 		log.Println("invalid oauth google state")
-		http.Redirect(response, request, "https://lapx.github.io/SitePersoFrontend/", http.StatusTemporaryRedirect)
+		//http.Redirect(response, request, "https://lapx.github.io/SitePersoFrontend/", http.StatusTemporaryRedirect)
+		http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
 	}
 
 	data, err := getUserDataFromGoogle(request.FormValue("code"))
@@ -60,7 +62,8 @@ func LoginCallback(response http.ResponseWriter, request *http.Request) string {
 
 	if err != nil {
 		log.Println(err.Error())
-		http.Redirect(response, request, "https://lapx.github.io/SitePersoFrontend/", http.StatusTemporaryRedirect)
+		//http.Redirect(response, request, "https://lapx.github.io/SitePersoFrontend/", http.StatusTemporaryRedirect)
+		http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/", http.StatusTemporaryRedirect)
 	}
 	repository.StoreUserInfo(userInfo)
 	return userInfo.Token

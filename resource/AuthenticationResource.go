@@ -13,12 +13,12 @@ func oauthGoogleLogin(response http.ResponseWriter, request *http.Request) {
 
 func oauthGoogleCallback(response http.ResponseWriter, request *http.Request) {
 	token := authentication.LoginCallback(response, request)
-	http.Redirect(response, request, "http://lapx.github.io/SitePersoFrontend/?token="+token, http.StatusTemporaryRedirect)
+	http.Redirect(response, request, "http://localhost:3000/SitePersoFrontend/?token="+token, http.StatusTemporaryRedirect)
 }
 
 func getUserInfo(response http.ResponseWriter, request *http.Request) {
 	token, err := request.URL.Query()["token"]
-
+		
 	if err {
 		userEmailPicture := authentication.GetUser(token[0])
 		response.Header().Set("Content-Type", "application/json")

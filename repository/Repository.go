@@ -33,11 +33,23 @@ func FetchUser(token string) (string, string) {
 	var picture string
 
 	database := initDatabaseConnection()
+	defer database.Close()
+
 	database.QueryRow("select email, picture from userinfo where token=$1", token).Scan(&email, &picture)
 
-	database.Close()
-
 	return email, picture
+}
+
+func FetchNumberOfEarningsGraphs(token string) int {
+	var id string
+	var numberOfEarningsGraphs int
+	database := initDatabaseConnection()
+	defer database.Close()
+
+	database.QueryRow("select id from userinfo where token=$1", token).Scan(&id)
+	database.QueryRow("select numberofgraphs from userdashboard where id=$1", id).Scan(&numberOfEarningsGraphs)
+
+	return numberOfEarningsGraphs
 }
 
 func initDatabaseConnection() *sql.DB {
