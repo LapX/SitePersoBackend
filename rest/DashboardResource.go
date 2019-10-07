@@ -8,12 +8,17 @@ import (
 	"net/http"
 )
 
-func GetData(response http.ResponseWriter, request *http.Request) {
+type TokenAmount struct {
+	Token  string
+	Amount int
+}
+
+func getData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(response).Encode(dataGeneration.GenerateRandomDataList(rand.Intn(6) + 1))
 }
 
-func GetGraphs(response http.ResponseWriter, request *http.Request) {
+func getGraphs(response http.ResponseWriter, request *http.Request) {
 	token, err := request.URL.Query()["token"]
 	response.Header().Set("Content-Type", "application/json")
 	if err {
@@ -22,4 +27,14 @@ func GetGraphs(response http.ResponseWriter, request *http.Request) {
 	} else {
 		json.NewEncoder(response).Encode("token query param missing")
 	}
+}
+
+func modifyAmountOfGraphs(response http.ResponseWriter, request *http.Request) {
+	decoder := json.NewDecoder(request.Body)
+	var tokenAmount TokenAmount
+	err := decoder.Decode(&tokenAmount)
+	if err != nil {
+		panic(err)
+	}
+	service.AddGraphs(tokenAmount.Token, tokenAmount.Amount)
 }

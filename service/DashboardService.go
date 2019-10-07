@@ -22,3 +22,7 @@ func GetGraphs(token string) Graphs {
 
 	return graphs
 }
+
+func AddGraphs(token string, amount int) {
+	database.ModifyNumberOfGraphs(token, amount)
+}
