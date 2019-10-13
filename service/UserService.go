@@ -1,4 +1,4 @@
-package authentication
+package service
 
 import (
 	"github.com/LapX/SitePersoBackend/dependencies/database"

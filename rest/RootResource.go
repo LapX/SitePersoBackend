@@ -19,7 +19,7 @@ func InitServer() {
 	router.HandleFunc("/auth/google/login", oauthGoogleLogin).Methods("GET")
 	router.HandleFunc("/auth/google/callback", oauthGoogleCallback).Methods("GET")
 	router.HandleFunc("/auth", getUserInfo).Methods("GET")
-	router.HandleFunc("/addGraphs", modifyAmountOfGraphs).Methods("GET", "POST")
+	router.HandleFunc("/addGraphs", modifyAmountOfGraphs).Methods("POST")
 	router.Use(mux.CORSMethodMiddleware(router))
 	log.Println("[INFO] Api listening on port " + port)
 	log.Fatal(http.ListenAndServe(port, handlers.CORS(originsOk)(router)))
