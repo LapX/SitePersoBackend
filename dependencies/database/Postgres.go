@@ -42,6 +42,9 @@ func ModifyNumberOfGraphs(token string, amount int) {
 		if amount > 0 {
 			numberOfGraphs = numberOfGraphs + amount
 		}
+		if numberOfGraphs > 20 {
+			numberOfGraphs = 20
+		}
 		queryString := `insert into userdashboard(id, numberofgraphs) values ($1, $2)`
 		database.Exec(queryString, id, numberOfGraphs)
 	} else if count == 1 {
@@ -49,6 +52,8 @@ func ModifyNumberOfGraphs(token string, amount int) {
 		numberOfGraphs = numberOfGraphs + amount
 		if numberOfGraphs < 0 {
 			numberOfGraphs = 0
+		} else if numberOfGraphs > 20 {
+			numberOfGraphs = 20
 		}
 		queryString := `update userdashboard set numberofgraphs = $1 where id=$2`
 		database.Exec(queryString, numberOfGraphs, id)

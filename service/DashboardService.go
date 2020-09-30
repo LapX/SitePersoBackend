@@ -26,10 +26,5 @@ func GetGraphs(token string) Graphs {
 }
 
 func AddGraphs(token string, amount int) {
-	if amount > 20 {
-		database.ModifyNumberOfGraphs(token, 20)
-	} else {
-		database.ModifyNumberOfGraphs(token, amount)
-	}
-
+	database.ModifyNumberOfGraphs(token, amount)
 }
