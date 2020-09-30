@@ -79,6 +79,17 @@ func FetchNumberOfEarningsGraphs(token string) int {
 	return numberOfEarningsGraphs
 }
 
+func FetchNumberOfEarningsGraph() int {
+	noAuthId := 0
+	var numberOfEarningsGraphs int
+	database := initDatabaseConnection()
+	defer database.Close()
+
+	database.QueryRow("select numberofgraphs from userdashboard where id=$1", noAuthId).Scan(&numberOfEarningsGraphs)
+
+	return numberOfEarningsGraphs
+}
+
 func initDatabaseConnection() *sql.DB {
 	dataSourceName := os.Getenv("DATABASE_URL")
 	database, err := sql.Open("postgres", dataSourceName)

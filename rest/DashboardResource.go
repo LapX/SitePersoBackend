@@ -25,7 +25,8 @@ func getGraphs(response http.ResponseWriter, request *http.Request) {
 		graphs := service.GetGraphs(token[0])
 		json.NewEncoder(response).Encode(graphs)
 	} else {
-		json.NewEncoder(response).Encode("token query param missing")
+		graphs := service.GetGraphs("undefined")
+		json.NewEncoder(response).Encode(graphs)
 	}
 }
 
