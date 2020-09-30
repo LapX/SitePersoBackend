@@ -12,9 +12,11 @@ type Graphs struct {
 
 func GetGraphs(token string) Graphs {
 	var graphs Graphs
-	numberOfEarningsGraphs := 6
+	var numberOfEarningsGraphs int
 	if token != "undefined" {
 		numberOfEarningsGraphs = database.FetchNumberOfEarningsGraphs(token)
+	} else {
+		numberOfEarningsGraphs = database.FetchNumberOfEarningsGraph()
 	}
 	for i := 0; i < numberOfEarningsGraphs; i++ {
 		graphs.EarningsGraphArray = append(graphs.EarningsGraphArray, dataGeneration.GenerateRandomDataList(rand.Intn(6)+1))
@@ -24,5 +26,8 @@ func GetGraphs(token string) Graphs {
 }
 
 func AddGraphs(token string, amount int) {
+	if amount > 20 {
+		amount = 20
+	}
 	database.ModifyNumberOfGraphs(token, amount)
 }
